@@ -1,0 +1,120 @@
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f6f7fb;
+    color:#222;
+    padding:40px;
+}
+
+/* Main Heading */
+
+h1{
+    font-size:38px;
+    margin-bottom:25px;
+    color:#111827;
+}
+
+/* Section Title */
+
+h2{
+    margin-bottom:25px;
+    color:#111827;
+}
+
+/* Navigation Buttons */
+
+p{
+    margin-bottom:30px;
+}
+
+p a{
+    text-decoration:none;
+    color:#222;
+    background:white;
+    padding:12px 24px;
+    border-radius:12px;
+    border:1px solid #ddd;
+    margin-right:8px;
+    transition:.3s;
+    font-weight:500;
+}
+
+p a:hover{
+    background:#4361ee;
+    color:white;
+}
+
+/* Table */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+th{
+    background:#efebe7;
+    color:#555;
+    text-align:left;
+    padding:18px;
+    font-size:17px;
+}
+
+td{
+    padding:20px 18px;
+    border-bottom:1px solid #ececec;
+    font-size:17px;
+}
+
+tr:last-child td{
+    border-bottom:none;
+}
+
+tr:hover{
+    background:#f8fbff;
+}
+
+/* Break Row */
+
+td[colspan]{
+    text-align:center;
+    font-size:18px;
+    font-weight:600;
+    color:#666;
+    background:#f3f1ef;
+}
+
+/* Note */
+
+body > p:last-child{
+    margin-top:25px;
+    color:#666;
+    font-size:16px;
+}
+
+/* Container */
+
+.container{
+    max-width:950px;
+    margin:auto;
+}
+
+/* Card */
+
+.card{
+    background:white;
+    padding:28px;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+}

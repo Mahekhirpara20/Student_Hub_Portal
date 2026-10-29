@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f4f7fb">
+    <title>Inventory | StudentHub Practical 13</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --ink: #17243a;
+            --muted: #65748b;
+            --line: #e2e8f0;
+            --surface: #fff;
+            --canvas: #f4f7fb;
+            --primary: #3156c9;
+            --primary-dark: #2445aa;
+            --danger: #b42318;
+            --success: #16794b;
+            --shadow: 0 16px 40px rgba(30, 49, 82, .08);
+        }
+
+        * { box-sizing: border-box; }
+        [hidden] { display: none !important; }
+
+        body {
+            margin: 0;
+            min-width: 320px;
+            background: var(--canvas);
+            color: var(--ink);
+            font-family: Inter, "Segoe UI", system-ui, -apple-system, sans-serif;
+            line-height: 1.5;
+        }
+
+        button, input, select { font: inherit; }
+        a { color: inherit; }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1rem clamp(1rem, 4vw, 3rem);
+            background: var(--surface);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .brand {
+            color: var(--primary);
+            font-size: 1.15rem;
+            font-weight: 800;
+            letter-spacing: -.03em;
+            text-decoration: none;
+        }
+
+        .topbar-link {
+            color: var(--primary);
+            font-size: .9rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .topbar-link:hover { text-decoration: underline; }
+        .topbar-note { color: var(--muted); font-size: .9rem; }
+
+        .page {
+            width: min(1180px, calc(100% - 2rem));
+            margin: 2rem auto 4rem;
+        }
+
+        .intro {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .eyebrow {
+            margin: 0 0 .4rem;
+            color: var(--primary);
+            font-size: .78rem;
+            font-weight: 800;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+
+        h1, h2, p { margin-top: 0; }
+        h1 { margin-bottom: .35rem; font-size: clamp(1.8rem, 4vw, 2.5rem); letter-spacing: -.04em; }
+        .intro-copy { max-width: 620px; margin-bottom: 0; color: var(--muted); }
+
+        .role-preview {
+            display: grid;
+            gap: .35rem;
+            min-width: 190px;
+            color: var(--muted);
+            font-size: .82rem;
+            font-weight: 700;
+        }
+
+        .role-preview select, .field input {
+            width: 100%;
+            min-height: 44px;
+            padding: .65rem .75rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            background: #fff;
+            color: var(--ink);
+        }
+
+        .role-preview select:focus, .field input:focus {
+            outline: 3px solid rgba(49, 86, 201, .18);
+            border-color: var(--primary);
+        }
+
+        .demo-note {
+            margin: 0 0 1.25rem;
+            padding: .75rem 1rem;
+            border: 1px solid #cbd8ff;
+            border-radius: 10px;
+            background: #edf2ff;
+            color: #31477b;
+            font-size: .9rem;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: minmax(240px, 310px) minmax(0, 1fr);
+            gap: 1.25rem;
+            align-items: start;
+        }
+
+        .card {
+            min-width: 0;
+            padding: clamp(1rem, 2vw, 1.5rem);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            background: var(--surface);
+            box-shadow: var(--shadow);
+        }
+
+        .card h2 { margin-bottom: .25rem; font-size: 1.12rem; }
+        .card-subtitle { margin-bottom: 1.25rem; color: var(--muted); font-size: .9rem; }
+
+        .menu-list {
+            display: grid;
+            gap: .45rem;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .menu-list a {
+            display: block;
+            padding: .7rem .8rem;
+            border-radius: 8px;
+            color: #34445d;
+            font-weight: 650;
+            text-decoration: none;
+        }
+
+        .menu-list a:hover, .menu-list a:focus-visible {
+            background: #edf2ff;
+            color: var(--primary-dark);
+        }
+
+        .menu-status { margin: .8rem 0 0; color: var(--muted); font-size: .82rem; }
+        .inventory-card { padding: 0; overflow: hidden; }
+        .inventory-heading { padding: 1.25rem 1.5rem .8rem; }
+        .inventory-heading h2 { margin-bottom: .2rem; }
+        .inventory-heading p { margin-bottom: 0; color: var(--muted); font-size: .9rem; }
+
+        .table-scroll { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th, td { padding: .85rem 1rem; border-top: 1px solid var(--line); vertical-align: middle; }
+        th { background: #f8fafc; color: #526178; font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; }
+        td { font-size: .92rem; }
+        .item-name { font-weight: 700; }
+        .actions { display: flex; flex-wrap: wrap; gap: .45rem; }
+
+        .button {
+            display: inline-flex;
+            min-height: 40px;
+            align-items: center;
+            justify-content: center;
+            gap: .4rem;
+            padding: .55rem .85rem;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            text-decoration: none;
+            transition: background .15s ease, border-color .15s ease;
+        }
+
+        .button:focus-visible { outline: 3px solid rgba(49, 86, 201, .25); outline-offset: 2px; }
+        .button:disabled { cursor: not-allowed; opacity: .6; }
+        .button-primary { background: var(--primary); color: #fff; }
+        .button-primary:hover:not(:disabled) { background: var(--primary-dark); }
+        .button-secondary { border-color: #cbd5e1; background: #fff; color: #34445d; }
+        .button-secondary:hover:not(:disabled) { background: #f8fafc; }
+        .button-danger { border-color: #f2c4c0; background: #fff; color: var(--danger); }
+        .button-danger:hover:not(:disabled) { background: #fff5f4; }
+        .form-actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1rem; }
+
+        .field { display: grid; gap: .4rem; margin-bottom: 1rem; }
+        .field label { color: #34445d; font-size: .88rem; font-weight: 700; }
+        .field input::placeholder { color: #9aa7b8; }
+
+        .loading, .empty-state {
+            padding: 1.5rem;
+            color: var(--muted);
+            text-align: center;
+        }
+
+        .loading[hidden], .empty-state[hidden], .notice[hidden] { display: none; }
+        .loading::before {
+            display: inline-block;
+            width: .85rem;
+            height: .85rem;
+            margin-right: .55rem;
+            border: 2px solid #cbd5e1;
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            content: "";
+            vertical-align: -.12rem;
+            animation: spin .7s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .notice { margin: 1rem 1.5rem; padding: .8rem 1rem; border-radius: 9px; font-size: .9rem; }
+        .notice-success { background: #eaf7ef; color: var(--success); }
+        .notice-error { background: #fff1f0; color: var(--danger); }
+        .table-notice { margin: 1rem; }
+        .footer-note { margin: 1.25rem 0 0; color: var(--muted); font-size: .82rem; text-align: center; }
+
+        @media (max-width: 780px) {
+            .layout { grid-template-columns: 1fr; }
+            .intro { align-items: stretch; flex-direction: column; }
+            .role-preview { max-width: 320px; }
+        }
+
+        @media (max-width: 540px) {
+            .page { width: min(100% - 1rem, 1180px); margin-top: 1.25rem; }
+            .topbar { padding-inline: 1rem; }
+            .topbar-note { font-size: .78rem; text-align: right; }
+            th, td { padding: .7rem .65rem; }
+            .actions { flex-direction: column; align-items: stretch; }
+            .actions .button { min-height: 36px; padding: .4rem .55rem; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; }
+        }
+    </style>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="../index.html">StudentHub</a>
+        <span class="topbar-note">Practical 13 | Inventory management</span>
+        <a class="topbar-link" href="../login.php">Admin sign-in</a>
+    </header>
+
+    <main class="page">
+        <section class="intro" aria-labelledby="page-title">
+            <div>
+                <p class="eyebrow">PHP JSON API | Fetch API</p>
+                <h1 id="page-title">Inventory</h1>
+                <p class="intro-copy">Manage practical inventory records with asynchronous requests. Changes are saved without reloading this page.</p>
+            </div>
+            <label class="role-preview" for="preview-role">
+                Navigation role preview (demo only)
+                <select id="preview-role" name="preview-role">
+                    <option value="user">User</option>
+                    <option value="editor">Editor</option>
+                    <option value="admin" selected>Admin</option>
+                </select>
+            </label>
+        </section>
+
+        <p class="demo-note"><strong>Role selector:</strong> this control only demonstrates menu visibility. Inventory operations still require a signed-in StudentHub Admin account and a valid CSRF token.</p>
+        <section class="notice notice-error access-notice" id="access-notice" role="alert" aria-live="assertive" hidden>
+            <p id="access-message"></p>
+            <a href="../login.php">Sign in to StudentHub as an Admin</a>
+        </section>
+
+        <div class="layout">
+            <aside class="card" aria-labelledby="navigation-title">
+                <h2 id="navigation-title">Navigation</h2>
+                <p class="card-subtitle">Menu entries are loaded from the API.</p>
+                <nav aria-label="StudentHub navigation">
+                    <ul class="menu-list" id="menu-list"></ul>
+                </nav>
+                <p class="menu-status" id="menu-status" role="status" aria-live="polite">Loading navigation…</p>
+            </aside>
+
+            <section class="card" aria-labelledby="form-title">
+                <h2 id="form-title">Add an item</h2>
+                <p class="card-subtitle">Enter the item details below.</p>
+                <form id="item-form" novalidate>
+                    <fieldset id="item-fields" style="border: 0; margin: 0; padding: 0;">
+                        <div class="field">
+                            <label for="item-name">Item name</label>
+                            <input id="item-name" name="name" type="text" maxlength="100" required autocomplete="off" placeholder="e.g. Laboratory notebook">
+                        </div>
+                        <div class="field">
+                            <label for="item-category">Category</label>
+                            <input id="item-category" name="category" type="text" maxlength="100" required autocomplete="off" placeholder="e.g. Stationery">
+                        </div>
+                        <div class="field">
+                            <label for="item-price">Price</label>
+                            <input id="item-price" name="price" type="number" min="0.01" max="99999999.99" step="0.01" required inputmode="decimal" placeholder="0.00">
+                        </div>
+                    </fieldset>
+                    <div class="form-actions">
+                        <button class="button button-primary" id="submit-button" type="submit">Add item</button>
+                        <button class="button button-secondary" id="cancel-edit" type="button" hidden>Cancel edit</button>
+                    </div>
+                </form>
+                <p class="notice notice-success" id="success-message" role="status" aria-live="polite" hidden></p>
+                <p class="notice notice-error" id="error-message" role="alert" aria-live="assertive" hidden></p>
+            </section>
+
+            <section class="card inventory-card" aria-labelledby="inventory-title">
+                <div class="inventory-heading">
+                    <h2 id="inventory-title">Inventory records</h2>
+                    <p>Records are fetched from the PHP API and updated in place.</p>
+                </div>
+                <p class="loading" id="loading-indicator" role="status" aria-live="polite">Loading inventory…</p>
+                <p class="notice notice-error table-notice" id="table-error" role="alert" hidden></p>
+                <p class="empty-state" id="empty-state" hidden>No inventory items yet. Add an item using the form to get started.</p>
+                <div class="table-scroll">
+                    <table id="items-table" aria-describedby="inventory-title" hidden>
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="items-body"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+        <p class="footer-note">Practical 13 | Database-backed sample inventory only; student and event records are not modified.</p>
+    </main>
+</body>
+</html>

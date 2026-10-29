@@ -1,79 +1,1128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudentHub Login</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudentHub Login</title>
+
+<style>
+:root{
+    --primary:#3F5AE0;
+    --primary-dark:#3048C8;
+    --surface:#ffffff;
+    --surface-2:#F8FAFF;
+    --text:#1F2937;
+    --muted:#64748B;
+    --border:#D3D9EB;
+    --shadow:rgba(0,0,0,.12);
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    min-height:100vh;
+    font-family:Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at top,rgba(63,90,224,.14),transparent 28%),
+        linear-gradient(180deg,#EEF4FF 0%,#F5F7FB 100%);
+    color:var(--text);
+    padding:20px;
+    transition:background .4s ease,color .4s ease;
+}
+
+/* =========================
+   TOP NAVIGATION
+========================= */
+
+.navbar{
+    max-width:1000px;
+    margin:0 auto 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.nav-logo{
+    font-size:22px;
+    font-weight:800;
+    color:var(--primary);
+}
+
+.nav-buttons{
+    display:flex;
+    gap:10px;
+}
+
+.icon-btn{
+    border:none;
+    background:var(--surface);
+    color:var(--text);
+    width:44px;
+    height:44px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:20px;
+    box-shadow:0 5px 15px var(--shadow);
+    transition:.3s;
+}
+
+.icon-btn:hover{
+    transform:translateY(-2px);
+}
+
+/* Hamburger menu */
+
+.menu{
+    display:none;
+    position:absolute;
+    top:75px;
+    right:20px;
+    background:var(--surface);
+    width:200px;
+    border-radius:15px;
+    padding:12px;
+    box-shadow:0 15px 35px var(--shadow);
+    z-index:50;
+}
+
+.menu.active{
+    display:block;
+    animation:slideDown .3s ease;
+}
+
+.menu a{
+    display:block;
+    text-decoration:none;
+    color:var(--text);
+    padding:12px;
+    border-radius:8px;
+}
+
+.menu a:hover{
+    background:var(--surface-2);
+}
+
+/* =========================
+   NOTIFICATION
+========================= */
+
+.notification{
+    max-width:700px;
+    margin:0 auto 25px;
+    padding:14px 18px;
+    background:#E7EDFF;
+    color:#3048C8;
+    border-radius:12px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    transition:.4s;
+}
+
+.notification.hidden{
+    display:none;
+}
+
+.notification button{
+    border:none;
+    background:none;
+    font-size:20px;
+    cursor:pointer;
+}
+
+/* =========================
+   LOGIN
+========================= */
+
+.login-shell{
+    width:100%;
+    max-width:420px;
+    margin:0 auto;
+    text-align:center;
+}
+
+.brand img{
+    width:60px;
+    height:auto;
+}
+
+.brand-title{
+    font-size:42px;
+    font-weight:800;
+    color:var(--text);
+    margin-bottom:6px;
+}
+
+.brand-subtitle{
+    color:var(--muted);
+    margin:8px 0 30px;
+    font-size:17px;
+}
+
+.login-card{
+    background:var(--surface);
+    border:none;
+    border-radius:30px;
+    padding:32px;
+    box-shadow:0 22px 55px var(--shadow);
+    text-align:left;
+    transition:.4s;
+}
+
+.login-title{
+    font-size:26px;
+    margin-bottom:25px;
+    color:var(--text);
+    font-weight:700;
+}
+
+.form-group{
+    margin-bottom:18px;
+}
+
+.form-label{
+    display:block;
+    font-weight:700;
+    margin-bottom:8px;
+    color:var(--text);
+}
+
+.form-input{
+    width:100%;
+    padding:14px;
+    border:1px solid var(--border);
+    border-radius:16px;
+    background:var(--surface-2);
+    color:var(--text);
+    font-size:15px;
+}
+
+.form-input:focus{
+    outline:none;
+    border-color:var(--primary);
+    box-shadow:0 0 0 4px rgba(63,90,224,.15);
+}
+
+.submit-btn{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:16px;
+    background:var(--primary);
+    color:#fff;
+    font-size:17px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.submit-btn:hover{
+    background:var(--primary-dark);
+    transform:translateY(-2px);
+}
+
+.register-prompt{
+    margin:18px 0 0;
+    color:var(--muted);
+    text-align:center;
+}
+
+.register-prompt a{
+    color:var(--primary);
+    font-weight:700;
+    text-decoration:none;
+}
+
+.register-prompt a:hover{
+    text-decoration:underline;
+}
+
+/* =========================
+   EXTRA CONTENT
+========================= */
+
+.extra-content{
+    max-width:700px;
+    margin:35px auto;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:15px;
+}
+
+/* Slider */
+
+.slider{
+    background:var(--surface);
+    border-radius:20px;
+    padding:25px;
+    text-align:center;
+    box-shadow:0 10px 30px var(--shadow);
+}
+
+.slide{
+    min-height:100px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:10px;
+}
+
+.slide h3{
+    color:var(--primary);
+}
+
+.slider-controls{
+    margin-top:15px;
+    display:flex;
+    justify-content:center;
+    gap:10px;
+}
+
+.slider-controls button{
+    border:none;
+    background:var(--primary);
+    color:white;
+    padding:9px 18px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+/* FAQ */
+
+.faq-item{
+    background:var(--surface);
+    margin-bottom:10px;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 5px 15px var(--shadow);
+}
+
+.faq-question{
+    width:100%;
+    border:none;
+    background:var(--surface);
+    color:var(--text);
+    padding:17px;
+    text-align:left;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    display:flex;
+    justify-content:space-between;
+}
+
+.faq-answer{
+    max-height:0;
+    overflow:hidden;
+    padding:0 17px;
+    color:var(--muted);
+    transition:max-height .3s ease,padding .3s ease;
+}
+
+.faq-item.active .faq-answer{
+    max-height:100px;
+    padding:0 17px 17px;
+}
+
+/* Modal */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    justify-content:center;
+    align-items:center;
+    z-index:100;
+}
+
+.modal.active{
+    display:flex;
+    animation:fadeIn .3s ease;
+}
+
+.modal-box{
+    width:90%;
+    max-width:400px;
+    background:var(--surface);
+    color:var(--text);
+    border-radius:20px;
+    padding:30px;
+    position:relative;
+    animation:zoomIn .3s ease;
+}
+
+.close-modal{
+    position:absolute;
+    right:15px;
+    top:12px;
+    border:none;
+    background:none;
+    font-size:25px;
+    cursor:pointer;
+    color:var(--text);
+}
+
+.modal-box input{
+    width:100%;
+    padding:12px;
+    margin:15px 0;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--surface-2);
+    color:var(--text);
+}
+
+.modal-btn{
+    width:100%;
+    padding:12px;
+    background:var(--primary);
+    border:none;
+    color:white;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+/* Forgot password */
+
+.forgot-btn{
+    border:none;
+    background:none;
+    color:var(--primary);
+    cursor:pointer;
+    margin-top:15px;
+    font-weight:bold;
+}
+
+/* Footer */
+
+.footer{
+    margin-top:25px;
+    color:var(--muted);
+    font-size:14px;
+    text-align:center;
+}
+
+/* =========================
+   DARK MODE
+========================= */
+
+body.dark{
+    --surface:#1E293B;
+    --surface-2:#0F172A;
+    --text:#F1F5F9;
+    --muted:#CBD5E1;
+    --border:#475569;
+    --shadow:rgba(0,0,0,.4);
+
+    background:
+        radial-gradient(circle at top,rgba(63,90,224,.2),transparent 28%),
+        linear-gradient(180deg,#0F172A,#111827);
+}
+
+body.dark .notification{
+    background:#1E3A8A;
+    color:#DBEAFE;
+}
+
+/* Animations */
+
+@keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
+@keyframes zoomIn{
+    from{
+        transform:scale(.8);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+@keyframes slideDown{
+    from{
+        opacity:0;
+        transform:translateY(-10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* Mobile */
+
+@media(max-width:600px){
+
+    .brand-title{
+        font-size:34px;
+    }
+
+    .login-card{
+        padding:25px;
+    }
+
+    .notification{
+        font-size:14px;
+    }
+}
+</style>
 </head>
 
-<body bgcolor="#F5F7FB">
+<body>
 
-<center>
+<!-- =========================
+     NAVIGATION
+========================= -->
 
-<br><br><br>
+<nav class="navbar">
 
-<h1>StudentHub</h1>
+    <div class="nav-logo">
+        StudentHub
+    </div>
 
-<p>Sign in to your portal</p>
+    <div class="nav-buttons">
 
-<br>
+        <button
+            id="themeBtn"
+            class="icon-btn"
+            aria-label="Toggle dark mode"
+            title="Toggle theme">
+            🌙
+        </button>
 
-<form action="index.html" method="get">
+        <button
+            id="menuBtn"
+            class="icon-btn"
+            aria-label="Open navigation menu"
+            aria-expanded="false">
+            ☰
+        </button>
 
-<fieldset style="width:350px;">
+    </div>
 
-<legend><b>Login</b></legend>
+</nav>
 
-<table cellpadding="10">
+<!-- Hamburger Menu -->
 
-<tr>
-    <td><b>Student ID</b></td>
-</tr>
+<div id="menu" class="menu">
 
-<tr>
-    <td>
-        <input type="text"
-               name="studentid"
-               placeholder="e.g. 25CS033"
-               size="35"
-               required>
-    </td>
-</tr>
+    <a href="#login">🏠 Login</a>
+    <a href="#slider">📚 Courses</a>
+    <a href="#faq">❓ FAQ</a>
+    <a href="#footer">📞 Contact</a>
 
-<tr>
-    <td><b>Password</b></td>
-</tr>
+</div>
 
-<tr>
-    <td>
-        <input type="password"
-               name="password"
-               placeholder="Enter Password"
-               size="35"
-               required>
-    </td>
-</tr>
 
-<tr>
-    <td align="center">
-        <br>
-        <input type="submit" value="Sign In">
-    </td>
-</tr>
+<!-- =========================
+     NOTIFICATION
+========================= -->
 
-</table>
+<div id="notification" class="notification">
 
-</fieldset>
+    <span>
+        🔔 Welcome to StudentHub! Your student portal is ready.
+    </span>
 
-</form>
+    <button
+        id="closeNotification"
+        aria-label="Close notification">
+        ×
+    </button>
 
-<br>
+</div>
 
-<hr width="40%">
 
-<p>© 2026 StudentHub Portal</p>
+<!-- =========================
+     LOGIN
+========================= -->
 
-</center>
+<div class="login-shell" id="login">
+
+    <div class="brand">
+        <img src="logo.png" alt="StudentHub Logo">
+    </div>
+
+    <h1 class="brand-title">
+        StudentHub
+    </h1>
+
+    <p class="brand-subtitle">
+        Login to your portal
+    </p>
+
+    <form id="loginForm">
+
+        <fieldset class="login-card">
+
+            <h2 class="login-title">
+                Login
+            </h2>
+
+            <div class="form-group">
+
+                <label
+                    class="form-label"
+                    for="studentid">
+                    Student ID
+                </label>
+
+                <input
+                    class="form-input"
+                    type="text"
+                    id="studentid"
+                    name="studentid"
+                    placeholder="e.g. 25CS033"
+                    required>
+
+            </div>
+
+            <div class="form-group">
+
+                <label
+                    class="form-label"
+                    for="password">
+                    Password
+                </label>
+
+                <input
+                    class="form-input"
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter password"
+                    required>
+
+            </div>
+
+            <button
+                type="submit"
+                class="submit-btn">
+                Sign In
+            </button>
+
+            <button
+                type="button"
+                id="forgotBtn"
+                class="forgot-btn">
+                Forgot Password?
+            </button>
+
+            <p class="register-prompt">
+                New to StudentHub?
+                <a href="register.php">Create an account</a>
+            </p>
+
+        </fieldset>
+
+    </form>
+
+</div>
+
+
+<!-- =========================
+     SLIDER
+========================= -->
+
+<div class="extra-content" id="slider">
+
+    <h2 class="section-title">
+        StudentHub Features
+    </h2>
+
+    <div class="slider">
+
+        <div class="slide">
+
+            <h3 id="slideTitle">
+                📚 Course Information
+            </h3>
+
+            <p id="slideText">
+                Access your courses and academic information easily.
+            </p>
+
+        </div>
+
+        <div class="slider-controls">
+
+            <button
+                id="prevBtn"
+                aria-label="Previous slide">
+                ← Previous
+            </button>
+
+            <button
+                id="nextBtn"
+                aria-label="Next slide">
+                Next →
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     FAQ
+========================= -->
+
+<div class="extra-content" id="faq">
+
+    <h2 class="section-title">
+        Frequently Asked Questions
+    </h2>
+
+    <div class="faq-item">
+
+        <button class="faq-question">
+
+            <span>
+                How do I reset my password?
+            </span>
+
+            <span>
+                +
+            </span>
+
+        </button>
+
+        <div class="faq-answer">
+
+            <p>
+                Click on "Forgot Password?" on the login page
+                and follow the instructions.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="faq-item">
+
+        <button class="faq-question">
+
+            <span>
+                Where can I check my attendance?
+            </span>
+
+            <span>
+                +
+            </span>
+
+        </button>
+
+        <div class="faq-answer">
+
+            <p>
+                After logging in, open the Attendance section
+                from the student dashboard.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="faq-item">
+
+        <button class="faq-question">
+
+            <span>
+                How can I contact support?
+            </span>
+
+            <span>
+                +
+            </span>
+
+        </button>
+
+        <div class="faq-answer">
+
+            <p>
+                Contact the StudentHub administration through
+                the Contact section.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     MODAL
+========================= -->
+
+<div
+    id="modal"
+    class="modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modalTitle">
+
+    <div class="modal-box">
+
+        <button
+            id="closeModal"
+            class="close-modal"
+            aria-label="Close dialog">
+            ×
+        </button>
+
+        <h2 id="modalTitle">
+            Reset Password
+        </h2>
+
+        <p>
+            Enter your Student ID to receive a password
+            reset link.
+        </p>
+
+        <input
+            type="text"
+            id="resetStudentId"
+            placeholder="Enter Student ID">
+
+        <button
+            id="resetBtn"
+            class="modal-btn">
+            Send Reset Link
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<p class="footer" id="footer">
+    © 2026 StudentHub Portal
+</p>
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+/* =========================================
+   DOM ELEMENT SELECTION
+========================================= */
+
+const themeBtn = document.getElementById("themeBtn");
+const menuBtn = document.getElementById("menuBtn");
+const menu = document.getElementById("menu");
+
+const notification = document.getElementById("notification");
+const closeNotification =
+    document.getElementById("closeNotification");
+
+const modal = document.getElementById("modal");
+const forgotBtn = document.getElementById("forgotBtn");
+const closeModal = document.getElementById("closeModal");
+
+const resetBtn = document.getElementById("resetBtn");
+
+const loginForm = document.getElementById("loginForm");
+
+const slideTitle = document.getElementById("slideTitle");
+const slideText = document.getElementById("slideText");
+
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+
+
+/* =========================================
+   DARK / LIGHT THEME
+   USING localStorage
+========================================= */
+
+const savedTheme = localStorage.getItem("theme");
+
+if(savedTheme === "dark"){
+    document.body.classList.add("dark");
+    themeBtn.textContent = "☀️";
+}
+
+
+/* Theme button click event */
+
+themeBtn.addEventListener("click", function(){
+
+    document.body.classList.toggle("dark");
+
+    if(document.body.classList.contains("dark")){
+
+        themeBtn.textContent = "☀️";
+
+        localStorage.setItem("theme", "dark");
+
+    }else{
+
+        themeBtn.textContent = "🌙";
+
+        localStorage.setItem("theme", "light");
+
+    }
+
+});
+
+
+/* =========================================
+   HAMBURGER MENU
+========================================= */
+
+menuBtn.addEventListener("click", function(){
+
+    menu.classList.toggle("active");
+
+    const isOpen = menu.classList.contains("active");
+
+    menuBtn.setAttribute("aria-expanded", isOpen);
+
+});
+
+
+/* =========================================
+   NOTIFICATION CLOSE
+========================================= */
+
+closeNotification.addEventListener("click", function(){
+
+    notification.classList.add("hidden");
+
+});
+
+
+/* =========================================
+   MODAL OPEN
+========================================= */
+
+forgotBtn.addEventListener("click", function(){
+
+    modal.classList.add("active");
+
+    document.getElementById("resetStudentId").focus();
+
+});
+
+
+/* =========================================
+   MODAL CLOSE
+========================================= */
+
+closeModal.addEventListener("click", function(){
+
+    modal.classList.remove("active");
+
+});
+
+
+/* Close modal when clicking outside */
+
+modal.addEventListener("click", function(event){
+
+    if(event.target === modal){
+
+        modal.classList.remove("active");
+
+    }
+
+});
+
+
+/* =========================================
+   RESET PASSWORD BUTTON
+========================================= */
+
+resetBtn.addEventListener("click", function(){
+
+    const studentId =
+        document.getElementById("resetStudentId").value;
+
+    if(studentId.trim() === ""){
+
+        alert("Please enter your Student ID.");
+
+    }else{
+
+        alert(
+            "Password reset is not available from this page. "
+            + "Please contact your administrator."
+        );
+
+        modal.classList.remove("active");
+
+    }
+
+});
+
+
+/* =========================================
+   LOGIN FORM EVENT
+========================================= */
+
+loginForm.addEventListener("submit", function(event){
+
+    event.preventDefault();
+    window.location.href = "login.php";
+
+});
+
+
+/* =========================================
+   FAQ ACCORDION
+========================================= */
+
+const faqQuestions =
+    document.querySelectorAll(".faq-question");
+
+
+faqQuestions.forEach(function(question){
+
+    question.addEventListener("click", function(){
+
+        const faqItem =
+            question.parentElement;
+
+        faqItem.classList.toggle("active");
+
+        const symbol =
+            question.querySelector("span:last-child");
+
+        if(faqItem.classList.contains("active")){
+
+            symbol.textContent = "−";
+
+        }else{
+
+            symbol.textContent = "+";
+
+        }
+
+    });
+
+});
+
+
+/* =========================================
+   SLIDER
+========================================= */
+
+const slides = [
+
+    {
+        title:"📚 Course Information",
+        text:"Access your courses and academic information easily."
+    },
+
+    {
+        title:"📊 Attendance Tracking",
+        text:"Check your attendance percentage and academic progress."
+    },
+
+    {
+        title:"📅 Examination Schedule",
+        text:"View upcoming examinations and important academic dates."
+    }
+
+];
+
+let currentSlide = 0;
+
+
+/* Function to display slide */
+
+function showSlide(index){
+
+    slideTitle.textContent =
+        slides[index].title;
+
+    slideText.textContent =
+        slides[index].text;
+
+}
+
+
+/* Next button */
+
+nextBtn.addEventListener("click", function(){
+
+    currentSlide++;
+
+    if(currentSlide >= slides.length){
+
+        currentSlide = 0;
+
+    }
+
+    showSlide(currentSlide);
+
+});
+
+
+/* Previous button */
+
+prevBtn.addEventListener("click", function(){
+
+    currentSlide--;
+
+    if(currentSlide < 0){
+
+        currentSlide = slides.length - 1;
+
+    }
+
+    showSlide(currentSlide);
+
+});
+
+
+/* =========================================
+   KEYBOARD ACCESSIBILITY
+========================================= */
+
+document.addEventListener("keydown", function(event){
+
+    /* Escape closes modal */
+
+    if(event.key === "Escape"){
+
+        modal.classList.remove("active");
+
+        menu.classList.remove("active");
+
+    }
+
+});
+
+
+/* Display first slide */
+
+showSlide(currentSlide);
+
+</script>
 
 </body>
 </html>

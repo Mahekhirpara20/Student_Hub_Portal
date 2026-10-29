@@ -1,159 +1,412 @@
 <!DOCTYPE html>
-<html>
-
-<head>
-    <title>Results & CGPA</title>
-</head>
-
-<body>
-    <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudentHub</title>
+    <title>Results & CGPA</title>
+
+    <style>
+        :root {
+            --bg: #eef4ff;
+            --surface: #ffffff;
+            --surface-2: #f8f9fc;
+            --text: #0f172a;
+            --muted: #64748b;
+            --primary: #3f5ae0;
+            --primary-soft: rgba(63, 90, 224, .12);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f7f6f3;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 24px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 24px;
+        }
+
+        .sidebar {
+            background-color: var(--surface);
+            border-radius: 30px;
+            padding: 28px 24px;
+            box-shadow: 0 22px 60px rgba(15, 23, 42, 0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .sidebar .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+
+        .sidebar h2,
+        .brand-title {
+            font-size: 20px;
+            letter-spacing: -0.03em;
+        }
+
+        .nav {
+            list-style: none;
+            display: grid;
+            gap: 8px;
+        }
+
+        .nav li a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 16px;
+            color: #334155;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background .2s ease, color .2s ease;
+        }
+
+        .nav li a:hover,
+        .nav li a.active {
+            background: var(--primary-soft);
+            color: var(--primary);
+        }
+
+        .nav li a span.icon {
+            width: 18px;
+            display: inline-flex;
+            justify-content: center;
+        }
+
+        .nav li a span.badge {
+            margin-left: auto;
+            background: var(--primary);
+            color: #fff;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .sidebar hr {
+            border: none;
+            height: 1px;
+            background: #e2e8f0;
+            margin: 0;
+        }
+
+        .sidebar .profile {
+            padding-top: 10px;
+            border-top: 1px solid #e2e8f0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .sidebar .profile h3 {
+            margin-bottom: 4px;
+            color: var(--text);
+            font-size: 17px;
+        }
+
+        .sidebar .profile a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .main-content {
+            background: transparent;
+        }
+
+        .top-header {
+            background-color: white;
+            border-radius: 28px;
+            padding: 24px;
+            box-shadow: 0 22px 60px rgba(15, 23, 42, 0.08);
+            margin-bottom: 24px;
+        }
+
+        .top-header h3 {
+            font-size: 18px;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .content {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .content h1 {
+            font-size: 28px;
+            text-align: left;
+            margin-bottom: 22px;
+            color: #222;
+        }
+
+        .tabs {
+            width: fit-content;
+            margin: 0 0 22px;
+            background-color: #eeeae5;
+            padding: 4px;
+            border-radius: 10px;
+        }
+
+        .tab {
+            display: inline-block;
+            padding: 9px 18px;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #777;
+        }
+
+        .tab.active {
+            background-color: white;
+            color: #444;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+        }
+
+        .cgpa-row {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 22px;
+            flex-wrap: wrap;
+        }
+
+        .cgpa-card {
+            flex: 1;
+            min-width: 220px;
+            background-color: white;
+            border: 1px solid #e8e8e8;
+            border-radius: 15px;
+            min-height: 104px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+        }
+
+        .cgpa-card h2 {
+            font-size: 30px;
+            color: #3159c9;
+            margin-bottom: 7px;
+        }
+
+        .cgpa-card.green h2 {
+            color: #15965a;
+        }
+
+        .cgpa-card p {
+            font-size: 12px;
+            color: #777;
+        }
+
+        .results-box {
+            background-color: white;
+            border: 1px solid #e8e8e8;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+        }
+
+        .results-box h2 {
+            font-size: 15px;
+            margin-bottom: 14px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: #eeebe6;
+            color: #777;
+            text-align: left;
+            font-size: 12px;
+            font-weight: normal;
+            padding: 12px 16px;
+        }
+
+        td {
+            padding: 13px 16px;
+            border-bottom: 1px solid #eeeeee;
+            font-size: 13px;
+        }
+
+        td:nth-child(3) {
+            color: #3159c9;
+            font-weight: 600;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        @media (max-width: 1050px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .top-header,
+            .results-box {
+                margin: 0;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .container {
+                padding: 16px;
+            }
+
+            .sidebar {
+                padding: 22px;
+            }
+
+            .cgpa-row {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
 <div class="container">
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-
-        <div class="logo">
-            <h2>StudentHub</h2>
+    <aside class="sidebar">
+        <div class="brand">
+            <img src="logo.png" class="logo" alt="StudentHub Logo">
+            <div class="brand-title">StudentHub</div>
         </div>
 
-        <ul>
-
-            <li>
-                <a href="index.html">Home</a>
-            </li>
-
-            <li>
-                <a href="timetable.html">Timetable</a>
-            </li>
-
-            <li>
-                <a href="attendance.html">Attendance</a>
-            </li>
-
-            <li>
-                <a href="results.html">Results &amp; CGPA</a>
-            </li>
-
-            <li>
-                <a href="events.html">Events</a>
-            </li>
-
-            <li>
-                <a href="assignment.html">Assignments</a>
-            </li>
-
-            <li>
-                <a href="fees.html">Fees Payment</a>
-            </li>
-
-            <li>
-                <a href="certificate.html">Certificates</a>
-            </li>
-
-            <li>
-                <a href="resources.html">Resources</a>
-            </li>
-
-            <li>
-                <a href="notifications.html">
-                    Notifications
-                    <span>2</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="profile.html">Profile</a>
-            </li>
-
+        <ul class="nav">
+            <li><a href="index.html"><span class="icon">⌂</span>Home</a></li>
+            <li><a href="timetable.html"><span class="icon">◷</span>Timetable</a></li>
+            <li><a href="attendance.html"><span class="icon">▥</span>Attendance</a></li>
+            <li><a class="active" href="results.html"><span class="icon">▥</span>Results &amp; CGPA</a></li>
+            <li><a href="events.html"><span class="icon">□</span>Events</a></li>
+            <li><a href="assignment.html"><span class="icon">▤</span>Assignments</a></li>
+            <li><a href="fees.html"><span class="icon">▭</span>Fees Payment</a></li>
+            <li><a href="certificate.html"><span class="icon">♙</span>Certificates</a></li>
+            <li><a href="resources.html"><span class="icon">▣</span>Resources</a></li>
+            <li><a href="notifications.html"><span class="icon">♧</span>Notifications<span class="badge">2</span></a></li>
+            <li><a href="profile.html"><span class="icon">♙</span>Profile</a></li>
         </ul>
 
+        <hr>
 
-<h1>Results & CGPA</h1>
+        <div class="profile">
+            <h3>Hetvi Khavadiya</h3>
+            <p>25CS033 · Sem 3</p>
+            <p><a href="signout.html">Sign Out</a></p>
+        </div>
+    </aside>
 
+    <div class="main-content">
+        <div class="top-header">
+            <h3>Results &amp; CGPA</h3>
+        </div>
 
-<h2>CGPA Details</h2>
+        <div class="content">
+            <h1>Results &amp; CGPA</h1>
 
-<table border="1" cellpadding="10">
+            <div class="tabs">
+                <span class="tab active">CGPA</span>
+                <span class="tab">Semester Results</span>
+            </div>
 
-<tr>
-    <th>Cumulative GPA</th>
-    <th>Current Semester SGPA</th>
-</tr>
+            <div class="cgpa-row">
+                <div class="cgpa-card">
+                    <h2>8.33</h2>
+                    <p>Cumulative GPA</p>
+                </div>
 
-<tr>
-    <td>7.75</td>
-    <td>8.85</td>
-</tr>
+                <div class="cgpa-card green">
+                    <h2>8.85</h2>
+                    <p>Current Sem SGPA</p>
+                </div>
+            </div>
 
-</table>
+            <div class="results-box">
+                <h2>Semester 3 – Subjects</h2>
 
-<br>
+                <table>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Credits</th>
+                        <th>Grade</th>
+                        <th>Points</th>
+                    </tr>
+                    <tr>
+                        <td>Data Structures</td>
+                        <td>4</td>
+                        <td>A</td>
+                        <td>9</td>
+                    </tr>
+                    <tr>
+                        <td>Mathematics III</td>
+                        <td>4</td>
+                        <td>B+</td>
+                        <td>8</td>
+                    </tr>
+                    <tr>
+                        <td>Web Development</td>
+                        <td>3</td>
+                        <td>A+</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>OOP</td>
+                        <td>4</td>
+                        <td>B+</td>
+                        <td>8</td>
+                    </tr>
+                    <tr>
+                        <td>HS</td>
+                        <td>3</td>
+                        <td>A</td>
+                        <td>9</td>
+                    </tr>
+                    <tr>
+                        <td>Communication Skills</td>
+                        <td>2</td>
+                        <td>A+</td>
+                        <td>10</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
 
-<h2>Semester 3 Results</h2>
+</div>
 
-<table border="1" cellpadding="10">
-
-<tr>
-    <th>Subject</th>
-    <th>Credits</th>
-    <th>Grade</th>
-    <th>Points</th>
-</tr>
-
-<tr>
-    <td>Data Structures</td>
-    <td>4</td>
-    <td>A</td>
-    <td>9</td>
-</tr>
-
-<tr>
-    <td>Mathematics III</td>
-    <td>4</td>
-    <td>B+</td>
-    <td>8</td>
-</tr>
-
-<tr>
-    <td>Web Development</td>
-    <td>3</td>
-    <td>A+</td>
-    <td>10</td>
-</tr>
-
-<tr>
-    <td>OOP</td>
-    <td>4</td>
-    <td>B+</td>
-    <td>8</td>
-</tr>
-
-<tr>
-    <td>HS</td>
-    <td>3</td>
-    <td>A</td>
-    <td>9</td>
-</tr>
-
-<tr>
-    <td>Communication Skills</td>
-    <td>2</td>
-    <td>A+</td>
-    <td>10</td>
-</tr>
-
-</table>
-
+<script src="js/profile-sync.js"></script>
 </body>
-
 </html>

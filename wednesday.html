@@ -1,72 +1,401 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Wednesday Timetable</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudentHub - Wednesday Timetable</title>
+
+    <style>
+        :root {
+            --bg: #eef4ff;
+            --surface: #ffffff;
+            --surface-soft: #f8f9fc;
+            --text: #0f172a;
+            --muted: #64748b;
+            --primary: #3f5ae0;
+            --primary-soft: rgba(63, 90, 224, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(180deg, #f7f9ff 0%, #eef4ff 100%);
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 24px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .sidebar {
+            background: var(--surface);
+            border-radius: 30px;
+            padding: 28px 24px;
+            box-shadow: 0 22px 60px rgba(15, 23, 42, 0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo {
+            width: 46px;
+            height: 46px;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+
+        .brand-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .nav {
+            list-style: none;
+            display: grid;
+            gap: 8px;
+        }
+
+        .nav li a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 16px;
+            color: #334155;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .nav li a:hover,
+        .nav li a.active {
+            background: var(--primary-soft);
+            color: var(--primary);
+        }
+
+        .nav li a span.icon {
+            width: 18px;
+            display: inline-flex;
+            justify-content: center;
+        }
+
+        .nav li a span.badge {
+            margin-left: auto;
+            background: var(--primary);
+            color: #fff;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .profile {
+            border-top: 1px solid #e2e8f0;
+            padding-top: 16px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .profile h3 {
+            margin: 0 0 4px;
+            color: var(--text);
+            font-size: 16px;
+        }
+
+        .profile a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .main {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .page-title {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .top-card {
+            background: var(--surface);
+            border-radius: 28px;
+            padding: 28px;
+            box-shadow: 0 22px 60px rgba(15, 23, 42, 0.08);
+        }
+
+        .top-card h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .top-card p {
+            color: var(--muted);
+            font-size: 15px;
+            margin: 0;
+        }
+
+        .days {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+
+        .days a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 54px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            background: var(--surface);
+            border: 1px solid #eee;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .days a:hover {
+            background: var(--primary-soft);
+            color: var(--primary);
+        }
+
+        .days a.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+        }
+
+        .table-card {
+            background: var(--surface);
+            border: 1px solid #eee;
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 16px 18px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: var(--surface-soft);
+            color: #64748b;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+        }
+
+        td {
+            color: #444;
+            font-size: 14px;
+        }
+
+        td:nth-child(2) {
+            color: #111;
+            font-weight: 700;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .break-row td {
+            background: #f4f5f8;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .break-row td:nth-child(2) {
+            color: #64748b;
+        }
+
+        .note {
+            margin-top: 18px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        @media (max-width: 1050px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .container {
+                padding: 16px;
+            }
+
+            .sidebar {
+                padding: 22px;
+            }
+
+            .top-card,
+            .table-card {
+                padding: 22px;
+            }
+
+            .nav li a {
+                font-size: 13px;
+            }
+
+            .days {
+                overflow-x: auto;
+                justify-content: flex-start;
+            }
+
+            .table-card {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 620px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<h1>Wednesday Timetable</h1>
+<div class="container">
 
-<table border="1" cellpadding="10">
+    <aside class="sidebar">
+        <div class="brand">
+            <img src="logo.png" class="logo" alt="StudentHub Logo">
+            <div>
+                <div class="brand-title">StudentHub</div>
+            </div>
+        </div>
 
-<tr>
-    <th>Time</th>
-    <th>Subject</th>
-    <th>Teacher</th>
-    <th>Room</th>
-</tr>
+        <ul class="nav">
+            <li><a href="index.html"><span class="icon">⌂</span>Home</a></li>
+            <li><a class="active" href="timetable.html"><span class="icon">◷</span>Timetable</a></li>
+            <li><a href="attendance.html"><span class="icon">▥</span>Attendance</a></li>
+            <li><a href="results.html"><span class="icon">▥</span>Results &amp; CGPA</a></li>
+            <li><a href="events.html"><span class="icon">□</span>Events</a></li>
+            <li><a href="assignment.html"><span class="icon">▤</span>Assignments</a></li>
+            <li><a href="fees.html"><span class="icon">▭</span>Fees Payment</a></li>
+            <li><a href="certificate.html"><span class="icon">♙</span>Certificates</a></li>
+            <li><a href="resources.html"><span class="icon">▣</span>Resources</a></li>
+            <li><a href="notifications.html"><span class="icon">♧</span>Notifications<span class="badge">2</span></a></li>
+            <li><a href="profile.html"><span class="icon">♙</span>Profile</a></li>
+        </ul>
 
-<tr>
-    <td>9:00 - 10:00</td>
-    <td>Mathematics</td>
-    <td>Pragnesh sir</td>
-    <td>506</td>
-</tr>
+        <div class="profile">
+            <h3>Hetvi Khavadiya</h3>
+            <p>25CS033 • Sem 3</p>
+            <p><a href="signout.html">Sign Out</a></p>
+        </div>
+    </aside>
 
-<tr>
-    <td>10:00 - 11:00</td>
-    <td>Data Structures</td>
-    <td>Vidhisha Mam</td>
-    <td>506</td>
-</tr>
+    <main class="main">
+        <div class="page-title">Timetable</div>
 
-<tr>
-    <td>11:00 - 12:00</td>
-    <td colspan="3" align="center"><b>BREAK</b></td>
-</tr>
+        <section class="top-card">
+            <h1>Timetable</h1>
+            <p>View your schedule for the week and stay on top of your classes.</p>
+        </section>
 
-<tr>
-    <td>12:00 - 1:00</td>
-    <td>OOP</td>
-    <td>Siddharth sir</td>
-    <td>506</td>
-</tr>
+        <div class="days">
+            <a href="monday.html">Mon</a>
+            <a href="tuesday.html">Tue</a>
+            <a href="wednesday.html" class="active">Wed</a>
+            <a href="thursday.html">Thu</a>
+            <a href="friday.html">Fri</a>
+        </div>
 
-<tr>
-    <td>1:00 - 2:00</td>
-    <td>Web Development</td>
-    <td>srusti mam</td>
-    <td>632</td>
-</tr>
+        <section class="table-card">
+            <table>
+                <tr>
+                    <th>Time</th>
+                    <th>Subject</th>
+                    <th>Teacher</th>
+                    <th>Room</th>
+                </tr>
+                <tr>
+                    <td>9:00–10:00</td>
+                    <td>Mathematics</td>
+                    <td>Pragnesh Sir</td>
+                    <td>506</td>
+                </tr>
+                <tr>
+                    <td>10:00–11:00</td>
+                    <td>Data Structures</td>
+                    <td>Vidhisha Mam</td>
+                    <td>506</td>
+                </tr>
+                <tr class="break-row">
+                    <td>11:00–12:00</td>
+                    <td colspan="3">— Break —</td>
+                </tr>
+                <tr>
+                    <td>12:00–1:00</td>
+                    <td>OOP</td>
+                    <td>Siddharth Sir</td>
+                    <td>506</td>
+                </tr>
+                <tr>
+                    <td>1:00–2:00</td>
+                    <td>Web Development</td>
+                    <td>Srusti Mam</td>
+                    <td>632</td>
+                </tr>
+                <tr>
+                    <td>2:00–3:00</td>
+                    <td>Mathematics</td>
+                    <td>Pragnesh Sir</td>
+                    <td>506</td>
+                </tr>
+                <tr>
+                    <td>3:00–4:00</td>
+                    <td>Data Structures</td>
+                    <td>Amit Thakkar</td>
+                    <td>506</td>
+                </tr>
+            </table>
+        </section>
 
-<tr>
-    <td>2:00 - 3:00</td>
-    <td>Mathematics</td>
-    <td>Pragnesh sir</td>
-    <td>506</td>
-</tr>
+        <p class="note">11:00 AM – 12:00 PM is break time daily.</p>
+    </main>
+</div>
 
-<tr>
-    <td>3:00 - 4:00</td>
-    <td>Data Structures</td>
-    <td>Amit Thakkar</td>
-    <td>506</td>
-</tr>
-
-</table>
-
-<p><b>Note:</b> 11:00 AM - 12:00 PM is break time daily.</p>
-
+<script src="js/profile-sync.js"></script>
 </body>
 </html>

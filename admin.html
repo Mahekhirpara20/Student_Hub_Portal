@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudentHub - Timetable</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f8f7f4;
+            color: #333;
+        }
+
+        /* ================= CONTAINER ================= */
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            width: 240px;
+            background-color: #ffffff;
+            border-right: 1px solid #e5e5e5;
+            min-height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+        }
+
+        .logo {
+            height: 78px;
+            display: flex;
+            align-items: center;
+            padding-left: 22px;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .logo h2 {
+            font-size: 16px;
+            color: #222;
+            position: relative;
+            padding-left: 38px;
+        }
+
+        .logo h2::before {
+            content: "≡";
+            position: absolute;
+            left: 0;
+            top: -9px;
+            width: 32px;
+            height: 32px;
+            border-radius: 9px;
+            background-color: #3f63d8;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+            font-weight: bold;
+        }
+
+        /* Sidebar Menu */
+
+        .sidebar ul {
+            list-style: none;
+            padding: 18px 12px;
+        }
+
+        .sidebar li {
+            margin-bottom: 4px;
+        }
+
+        .sidebar li a {
+            display: flex;
+            align-items: center;
+            min-height: 40px;
+            padding: 0 14px;
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+            border-radius: 10px;
+            transition: 0.2s;
+        }
+
+        .sidebar li a:hover {
+            background-color: #f1f4ff;
+            color: #4165d9;
+        }
+
+        /* Icons */
+
+        .sidebar li a::before {
+            margin-right: 13px;
+            width: 18px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .sidebar li:nth-child(1) a::before {
+            content: "⌂";
+        }
+
+        .sidebar li:nth-child(2) a::before {
+            content: "◷";
+        }
+
+        .sidebar li:nth-child(3) a::before {
+            content: "▥";
+        }
+
+        .sidebar li:nth-child(4) a::before {
+            content: "▥";
+        }
+
+        .sidebar li:nth-child(5) a::before {
+            content: "□";
+        }
+
+        .sidebar li:nth-child(6) a::before {
+            content: "▤";
+        }
+
+        .sidebar li:nth-child(7) a::before {
+            content: "▭";
+        }
+
+        .sidebar li:nth-child(8) a::before {
+            content: "♙";
+        }
+
+        .sidebar li:nth-child(9) a::before {
+            content: "▣";
+        }
+
+        .sidebar li:nth-child(10) a::before {
+            content: "♧";
+        }
+
+        .sidebar li:nth-child(11) a::before {
+            content: "♙";
+        }
+
+        /* Active Timetable */
+
+        .sidebar li:nth-child(2) a {
+            background-color: #eef2ff;
+            color: #4165d9;
+            font-weight: 500;
+        }
+
+        /* Notification */
+
+        .sidebar li:nth-child(10) a {
+            position: relative;
+        }
+
+        .sidebar li:nth-child(10) span {
+            margin-left: auto;
+            background-color: #3f63d8;
+            color: white;
+            width: 19px;
+            height: 19px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+        }
+
+        /* Student Info */
+
+        .sidebar::after {
+            content: "Hetvi Khavadiya\A25CS033 · Sem 3\A\A↪  Sign Out";
+            white-space: pre;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 17px;
+            border-top: 1px solid #eeeeee;
+            background-color: #ffffff;
+            color: #666;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        /* ================= MAIN CONTENT ================= */
+
+        .main-content {
+            margin-left: 240px;
+            width: calc(100% - 240px);
+            min-height: 100vh;
+        }
+
+        /* Top Header */
+
+        .top-header {
+            height: 58px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #e8e8e8;
+            display: flex;
+            align-items: center;
+            padding-left: 22px;
+        }
+
+        .top-header h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* ================= CONTENT ================= */
+
+        .content {
+            max-width: 1050px;
+            margin: 27px auto;
+            padding: 0 15px;
+        }
+
+        .content h1 {
+            text-align: center;
+            font-size: 23px;
+            color: #222;
+            margin-bottom: 19px;
+        }
+
+        /* ================= DAYS ================= */
+
+        .days {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 22px;
+        }
+
+        .days a {
+            text-decoration: none;
+            color: #333;
+            background-color: #ffffff;
+            border: 1px solid #eeeeee;
+            border-radius: 10px;
+            padding: 9px 14px;
+            font-size: 13px;
+            min-width: 49px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+        }
+
+        .days a:hover {
+            background-color: #eef2ff;
+            color: #4165d9;
+        }
+
+        .days a.active {
+            background-color: #4165d9;
+            color: white;
+            border-color: #4165d9;
+            font-weight: 600;
+        }
+
+        /* ================= BIG TIMETABLE BOX ================= */
+
+        .table-card {
+            background-color: white;
+            border: 1px solid #eeeeee;
+            border-radius: 18px;
+
+            width: 100%;
+            min-height: 450px;
+
+            padding: 22px;
+
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        }
+
+        /* ================= TABLE ================= */
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: #f0eeeb;
+            color: #777;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 16px 18px;
+        }
+
+        td {
+            padding: 17px 18px;
+            font-size: 14px;
+            color: #666;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        td:nth-child(2) {
+            color: #333;
+            font-weight: 600;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Break Row */
+
+        .break-row td {
+            background-color: #f3f2ef;
+            color: #777;
+            font-weight: 500;
+        }
+
+        .break-row td:nth-child(2) {
+            color: #777;
+            font-weight: 500;
+        }
+
+        /* Note */
+
+        .note {
+            margin-top: 18px;
+            font-size: 12px;
+            color: #777;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1100px) {
+
+            .content {
+                max-width: 900px;
+            }
+        }
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                width: 190px;
+            }
+
+            .main-content {
+                margin-left: 190px;
+                width: calc(100% - 190px);
+            }
+
+            .content {
+                max-width: 700px;
+            }
+
+            .sidebar li a {
+                font-size: 13px;
+            }
+
+            th,
+            td {
+                padding: 12px 9px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .sidebar {
+                width: 70px;
+            }
+
+            .logo h2 {
+                font-size: 0;
+            }
+
+            .sidebar li a {
+                font-size: 0;
+                justify-content: center;
+                padding: 0;
+            }
+
+            .sidebar li a::before {
+                margin-right: 0;
+            }
+
+            .sidebar li span {
+                display: none !important;
+            }
+
+            .sidebar::after {
+                font-size: 0;
+                padding: 0;
+            }
+
+            .main-content {
+                margin-left: 70px;
+                width: calc(100% - 70px);
+            }
+
+            .content {
+                padding: 0 10px;
+            }
+
+            .days {
+                overflow-x: auto;
+                justify-content: flex-start;
+            }
+
+            .days a {
+                flex-shrink: 0;
+            }
+
+            .table-card {
+                padding: 10px;
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 650px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="container">
+
+        <!-- SIDEBAR -->
+
+        <div class="sidebar">
+
+            <div class="logo">
+                <h2>StudentHub</h2>
+            </div>
+
+            <ul>
+
+                <li>
+                    <a href="index.html">Home</a>
+                </li>
+
+                <li>
+                    <a href="timetable.html">Timetable</a>
+                </li>
+
+                <li>
+                    <a href="attendance.html">Attendance</a>
+                </li>
+
+                <li>
+                    <a href="results.html">Results &amp; CGPA</a>
+                </li>
+
+                <li>
+                    <a href="events.html">Events</a>
+                </li>
+
+                <li>
+                    <a href="assignment.html">Assignments</a>
+                </li>
+
+                <li>
+                    <a href="fees.html">Fees Payment</a>
+                </li>
+
+                <li>
+                    <a href="certificate.html">Certificates</a>
+                </li>
+
+                <li>
+                    <a href="resources.html">Resources</a>
+                </li>
+
+                <li>
+                    <a href="notifications.html">
+                        Notifications
+                        <span>2</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="profile.html">Profile</a>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <!-- MAIN CONTENT -->
+
+        <div class="main-content">
+
+            <div class="top-header">
+                <h3>Timetable</h3>
+            </div>
+
+
+            <div class="content">
+
+                <h1>Timetable</h1>
+
+
+                <!-- DAY BUTTONS -->
+
+                <div class="days">
+
+                    <a href="monday.html" class="active">Mon</a>
+
+                    <a href="tuesday.html">Tue</a>
+
+                    <a href="wednesday.html">Wed</a>
+
+                    <a href="thursday.html">Thu</a>
+
+                    <a href="friday.html">Fri</a>
+
+                    <a href="saturday.html">Sat</a>
+
+                </div>
+
+
+                <!-- TIMETABLE -->
+
+                <div class="table-card">
+
+                    <table>
+
+                        <tr>
+                            <th>Time</th>
+                            <th>Subject</th>
+                            <th>Teacher</th>
+                            <th>Room</th>
+                        </tr>
+
+
+                        <tr>
+                            <td>9:00–10:00</td>
+                            <td>Data Structures</td>
+                            <td>Vidhisha Mam</td>
+                            <td>506</td>
+                        </tr>
+
+
+                        <tr>
+                            <td>10:00–11:00</td>
+                            <td>Mathematics</td>
+                            <td>Pragnesh Sir</td>
+                            <td>506</td>
+                        </tr>
+
+
+                        <tr class="break-row">
+                            <td>11:00–12:00</td>
+                            <td colspan="3">— Break —</td>
+                        </tr>
+
+
+                        <tr>
+                            <td>12:00–1:00</td>
+                            <td>Web Development</td>
+                            <td>Brinda Mam</td>
+                            <td>632</td>
+                        </tr>
+
+
+                        <tr>
+                            <td>1:00–2:00</td>
+                            <td>OOP</td>
+                            <td>Siddharth Sir</td>
+                            <td>506</td>
+                        </tr>
+
+
+                        <tr>
+                            <td>2:00–3:00</td>
+                            <td>Mathematics</td>
+                            <td>Pragnesh Sir</td>
+                            <td>506</td>
+                        </tr>
+
+
+                        <tr>
+                            <td>3:00–4:00</td>
+                            <td>Data Structures</td>
+                            <td>Vidhisha Mam</td>
+                            <td>506</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
+
+                <p class="note">
+                    11:00 AM – 12:00 PM is break time daily.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

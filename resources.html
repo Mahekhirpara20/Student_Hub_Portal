@@ -1,122 +1,360 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Study Resources</title>
-</head>
-<body>
-    <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudentHub</title>
-</head>
+    <title>StudentHub - Resources</title>
 
+    <style>
+        :root {
+            --bg: #eef4ff;
+            --surface: #ffffff;
+            --surface-2: #f8f9fc;
+            --text: #0f172a;
+            --muted: #64748b;
+            --primary: #3f5ae0;
+            --primary-soft: rgba(63, 90, 224, .12);
+            --pdf: #ef4444;
+            --ppt: #f59e0b;
+            --zip: #4338ca;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(180deg, #f7f9ff 0%, #eef4ff 100%);
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 24px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 24px;
+        }
+
+        .sidebar {
+            background: var(--surface);
+            border-radius: 30px;
+            padding: 28px 24px;
+            box-shadow: 0 22px 60px rgba(15, 23, 42, 0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .sidebar .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            border-radius: 12px;
+            background: var(--surface-2);
+        }
+
+        .brand-title {
+            font-size: 20px;
+            letter-spacing: -0.03em;
+            font-weight: 700;
+        }
+
+        .nav {
+            list-style: none;
+            display: grid;
+            gap: 8px;
+        }
+
+        .nav li a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 16px;
+            color: #334155;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background .2s ease, color .2s ease;
+        }
+
+        .nav li a:hover,
+        .nav li a.active {
+            background: var(--primary-soft);
+            color: var(--primary);
+        }
+
+        .nav li a span.icon {
+            width: 18px;
+            display: inline-flex;
+            justify-content: center;
+        }
+
+        .nav li a span.badge {
+            margin-left: auto;
+            background: var(--primary);
+            color: #fff;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .sidebar hr {
+            border: none;
+            height: 1px;
+            background: #e2e8f0;
+            margin: 0;
+        }
+
+        .sidebar .profile {
+            padding-top: 10px;
+            border-top: 1px solid #e2e8f0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .sidebar .profile h3 {
+            margin-bottom: 4px;
+            color: var(--text);
+            font-size: 17px;
+        }
+
+        .sidebar .profile a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .main {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .page-header {
+            background: var(--surface);
+            border-radius: 28px;
+            padding: 28px;
+            box-shadow: 0 22px 60px rgba(15, 23, 42, 0.08);
+            position: relative;
+        }
+
+        .page-header::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            background: var(--primary);
+            border-radius: 6px 0 0 6px;
+        }
+
+        .page-header h1 {
+            font-size: 28px;
+            margin: 0;
+        }
+
+        .resources-list {
+            display: grid;
+            gap: 16px;
+        }
+
+        .resource-card {
+            position: relative;
+            background: var(--surface);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 20px;
+            overflow: hidden;
+        }
+
+        .resource-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            background: var(--primary);
+        }
+
+        .file-badge {
+            width: 56px;
+            height: 56px;
+            border-radius: 18px;
+            display: grid;
+            place-items: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 12px;
+            line-height: 1;
+        }
+
+        .file-badge.pdf { background: var(--pdf); }
+        .file-badge.ppt { background: var(--ppt); }
+        .file-badge.zip { background: var(--zip); }
+
+        .resource-info h2 {
+            font-size: 18px;
+            margin: 0 0 6px;
+            color: #111827;
+        }
+
+        .resource-info p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .resource-info span {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .resource-action a {
+            color: var(--primary);
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 1050px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .resource-card {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .resource-action {
+                justify-self: start;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .container {
+                padding: 16px;
+            }
+
+            .sidebar {
+                padding: 22px;
+            }
+
+            .page-header,
+            .resource-card {
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
 <body>
 
 <div class="container">
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-
-        <div class="logo">
-            <h2>StudentHub</h2>
+    <aside class="sidebar">
+                            <div class="brand">
+            <img src="logo.png" class="logo" alt="StudentHub Logo">
+            <div class="brand-title">StudentHub</div>
         </div>
-
-        <ul>
-
-            <li>
-                <a href="index.html">Home</a>
-            </li>
-
-            <li>
-                <a href="timetable.html">Timetable</a>
-            </li>
-
-            <li>
-                <a href="attendance.html">Attendance</a>
-            </li>
-
-            <li>
-                <a href="results.html">Results &amp; CGPA</a>
-            </li>
-
-            <li>
-                <a href="events.html">Events</a>
-            </li>
-
-            <li>
-                <a href="assignment.html">Assignments</a>
-            </li>
-
-            <li>
-                <a href="fees.html">Fees Payment</a>
-            </li>
-
-            <li>
-                <a href="certificate.html">Certificates</a>
-            </li>
-
-            <li>
-                <a href="resources.html">Resources</a>
-            </li>
-
-            <li>
-                <a href="notifications.html">
-                    Notifications
-                    <span>2</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="profile.html">Profile</a>
-            </li>
-
+        <ul class="nav">
+            <li><a href="index.html"><span class="icon">⌂</span>Home</a></li>
+            <li><a href="timetable.html"><span class="icon">◷</span>Timetable</a></li>
+            <li><a href="attendance.html"><span class="icon">▥</span>Attendance</a></li>
+            <li><a href="results.html"><span class="icon">▥</span>Results &amp; CGPA</a></li>
+            <li><a href="events.html"><span class="icon">□</span>Events</a></li>
+            <li><a href="assignment.html"><span class="icon">▤</span>Assignments</a></li>
+            <li><a href="fees.html"><span class="icon">▭</span>Fees Payment</a></li>
+            <li><a class="active" href="resources.html"><span class="icon">▣</span>Resources</a></li>
+            <li><a href="certificate.html"><span class="icon">♙</span>Certificates</a></li>
+            <li><a href="notifications.html"><span class="icon">♧</span>Notifications<span class="badge">2</span></a></li>
+            <li><a href="profile.html"><span class="icon">♙</span>Profile</a></li>
         </ul>
 
+        <hr>
 
-    <h1>Study Resources</h1>
+        <div class="profile">
+            <h3>Hetvi Khavadiya</h3>
+            <p>25CS033 • Semester 3</p>
+            <p><a href="signout.html">Sign Out</a></p>
+        </div>
+    </aside>
 
-    <hr>
+    <main class="main">
+        <section class="page-header">
+            <h1>Study Resources</h1>
+        </section>
 
-    <h2>DS Notes – Unit 1 & 2</h2>
-    <p>Type: PDF</p>
-    <p>Subject: Data Structures</p>
-    <p>Size: 2.4 MB</p>
-    <a href="#">View</a>
+        <section class="resources-list">
+            <article class="resource-card">
+                <div class="file-badge pdf">PDF</div>
+                <div class="resource-info">
+                    <h2>DS Notes – Unit 1 & 2</h2>
+                    <p>Data Structures · 2.4 MB</p>
+                </div>
+                <div class="resource-action"><a href="#">View</a></div>
+            </article>
 
-    <hr>
+            <article class="resource-card">
+                <div class="file-badge pdf">PDF</div>
+                <div class="resource-info">
+                    <h2>Web Dev Reference Sheet</h2>
+                    <p>Web Development · 1.1 MB</p>
+                </div>
+                <div class="resource-action"><a href="#">View</a></div>
+            </article>
 
-    <h2>Web Dev Reference Sheet</h2>
-    <p>Type: PDF</p>
-    <p>Subject: Web Development</p>
-    <p>Size: 1.1 MB</p>
-    <a href="#">View</a>
+            <article class="resource-card">
+                <div class="file-badge pdf">PDF</div>
+                <div class="resource-info">
+                    <h2>Math Formula Handbook</h2>
+                    <p>Mathematics · 890 KB</p>
+                </div>
+                <div class="resource-action"><a href="#">View</a></div>
+            </article>
 
-    <hr>
+            <article class="resource-card">
+                <div class="file-badge ppt">PPT</div>
+                <div class="resource-info">
+                    <h2>OOP Slides – Chapter 3</h2>
+                    <p>OOP · 3.2 MB</p>
+                </div>
+                <div class="resource-action"><a href="#">View</a></div>
+            </article>
 
-    <h2>Math Formula Handbook</h2>
-    <p>Type: PDF</p>
-    <p>Subject: Mathematics</p>
-    <p>Size: 890 KB</p>
-    <a href="#">View</a>
+            <article class="resource-card">
+                <div class="file-badge zip">ZIP</div>
+                <div class="resource-info">
+                    <h2>Previous Year Papers – Sem 3</h2>
+                    <p>General · 12 MB</p>
+                </div>
+                <div class="resource-action"><a href="#">View</a></div>
+            </article>
+        </section>
+    </main>
+</div>
 
-    <hr>
-
-    <h2>OOP Slides – Chapter 3</h2>
-    <p>Type: PPT</p>
-    <p>Subject: OOP</p>
-    <p>Size: 3.2 MB</p>
-    <a href="#">View</a>
-
-    <hr>
-
-    <h2>Previous Year Papers – Sem 3</h2>
-    <p>Type: ZIP</p>
-    <p>Subject: General</p>
-    <p>Size: 12 MB</p>
-    <a href="#">View</a>
-
+<script src="js/profile-sync.js"></script>
 </body>
 </html>

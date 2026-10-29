@@ -199,6 +199,221 @@ color:#777;
 
 }
 
+/* Authentication and protected Practical 10 pages */
+.auth-page,
+.dashboard-page{
+min-height:100vh;
+padding:24px;
+display:grid;
+place-items:center;
+background:radial-gradient(circle at top,rgba(63,90,224,.14),transparent 32%),
+linear-gradient(180deg,#f7f9ff 0%,#eef4ff 100%);
+color:#1f2937;
+font-family:Arial,Helvetica,sans-serif;
+}
+
+.auth-card,
+.dashboard-card{
+width:min(100%,480px);
+padding:clamp(24px,5vw,40px);
+border:1px solid #e2e8f0;
+border-radius:24px;
+background:#fff;
+box-shadow:0 22px 55px rgba(15,23,42,.12);
+}
+
+.auth-brand{
+display:inline-block;
+margin-bottom:22px;
+color:#3f5ae0;
+font-size:1.35rem;
+font-weight:800;
+text-decoration:none;
+}
+
+.auth-card h1,
+.dashboard-card h1{
+margin:0 0 10px;
+color:#172554;
+font-size:clamp(1.7rem,5vw,2.2rem);
+line-height:1.2;
+}
+
+.auth-intro,
+.dashboard-copy{
+margin:0 0 24px;
+color:#526078;
+line-height:1.6;
+}
+
+.form-field{
+margin:0 0 18px;
+}
+
+.form-field label{
+display:block;
+margin:0 0 7px;
+font-weight:700;
+}
+
+.form-field input{
+width:100%;
+min-height:48px;
+padding:12px 14px;
+border:1px solid #cbd5e1;
+border-radius:11px;
+background:#fff;
+color:#1f2937;
+font:inherit;
+}
+
+.form-field input:focus-visible,
+.auth-page .button:focus-visible,
+.dashboard-page .button:focus-visible,
+.auth-card a:focus-visible,
+.dashboard-card a:focus-visible{
+outline:3px solid rgba(63,90,224,.35);
+outline-offset:3px;
+}
+
+.auth-page .button,
+.dashboard-page .button{
+display:inline-flex;
+min-height:44px;
+align-items:center;
+justify-content:center;
+padding:10px 18px;
+border:0;
+border-radius:11px;
+font:inherit;
+font-weight:700;
+text-align:center;
+text-decoration:none;
+cursor:pointer;
+}
+
+.auth-page .button-primary,
+.dashboard-page .button-primary{
+background:#3f5ae0;
+color:#fff;
+}
+
+.auth-page .button-primary:hover,
+.dashboard-page .button-primary:hover{
+background:#3048c8;
+}
+
+.auth-page .button-secondary,
+.dashboard-page .button-secondary{
+border:1px solid #cbd5e1;
+background:#fff;
+color:#263a89;
+}
+
+.auth-page .button-secondary:hover,
+.dashboard-page .button-secondary:hover{
+background:#eef2ff;
+}
+
+.auth-page .button-full,
+.dashboard-page .button-full{
+width:100%;
+}
+
+.auth-footer{
+margin:22px 0 0;
+color:#526078;
+text-align:center;
+}
+
+.auth-page .auth-footer a,
+.dashboard-page .auth-footer a,
+.auth-card .notice a,
+.dashboard-card .notice a{
+color:#3048c8;
+font-weight:700;
+}
+
+.auth-card .notice,
+.dashboard-card .notice{
+margin:0 0 18px;
+padding:13px 15px;
+border-radius:11px;
+line-height:1.5;
+}
+
+.auth-card .notice-error,
+.dashboard-card .notice-error{
+border:1px solid #fecaca;
+background:#fff0ef;
+color:#7f1d1d;
+}
+
+.auth-card .notice-warning,
+.dashboard-card .notice-warning{
+border:1px solid #fcd34d;
+background:#fffbeb;
+color:#713f12;
+}
+
+.auth-card .notice-success,
+.dashboard-card .notice-success{
+border:1px solid #86efac;
+background:#e8f7ee;
+color:#14532d;
+}
+
+.auth-card .notice h1,
+.dashboard-card .notice h1{
+margin:0 0 8px;
+font-size:1.5rem;
+}
+
+.dashboard-card{
+width:min(100%,760px);
+}
+
+.dashboard-header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:16px;
+margin-bottom:38px;
+}
+
+.dashboard-header .auth-brand{
+margin:0;
+}
+
+.dashboard-header form{
+margin:0;
+}
+
+.eyebrow{
+margin:0 0 10px;
+color:#3f5ae0;
+font-size:.8rem;
+font-weight:800;
+letter-spacing:.1em;
+text-transform:uppercase;
+}
+
+@media(max-width:520px){
+.auth-page,
+.dashboard-page{
+padding:14px;
+}
+
+.dashboard-header{
+align-items:flex-start;
+margin-bottom:30px;
+}
+
+.dashboard-header .button{
+padding:9px 12px;
+}
+}
+
 .welcome h1{
 
 margin:10px 0;
@@ -306,4 +521,426 @@ tr:hover{
 
 background:#f7f9ff;
 
+}
+
+/* Practical 11 student management */
+.student-management-page{
+--management-blue:#284f8f;
+--management-blue-dark:#1e3f75;
+--management-ink:#1f2937;
+--management-muted:#5b677b;
+--management-border:#d9e1ec;
+--management-surface:#fff;
+min-height:100vh;
+padding:30px 24px;
+background:#f3f6fa;
+color:var(--management-ink);
+font-family:Arial,Helvetica,sans-serif;
+}
+
+.student-management{
+width:min(100%,1280px);
+margin:0 auto;
+}
+
+.management-section-heading{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:20px;
+margin-bottom:20px;
+}
+
+.student-management-header{
+margin-bottom:24px;
+padding-bottom:22px;
+border-bottom:1px solid var(--management-border);
+}
+
+.management-brand-row,
+.management-title-row{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:18px;
+}
+
+.management-brand-row{
+justify-content:flex-start;
+margin-bottom:22px;
+}
+
+.management-brand{
+display:inline-flex;
+align-items:center;
+gap:10px;
+color:var(--management-blue-dark);
+font-size:1.2rem;
+font-weight:800;
+text-decoration:none;
+}
+
+.management-brand-mark{
+display:grid;
+width:38px;
+height:38px;
+place-items:center;
+border-radius:9px;
+background:var(--management-blue);
+color:#fff;
+font-size:.78rem;
+letter-spacing:.04em;
+}
+
+.management-portal-label{
+padding:6px 10px;
+border:1px solid #cad7e9;
+border-radius:999px;
+background:#eaf0f8;
+color:var(--management-blue-dark);
+font-size:.8rem;
+font-weight:700;
+}
+
+.management-title-row .eyebrow{
+margin-bottom:6px;
+color:var(--management-blue);
+letter-spacing:.08em;
+}
+
+.student-management h1{
+margin:0;
+color:#172554;
+font-size:1.9rem;
+line-height:1.2;
+}
+
+.student-management h2{
+margin:0 0 18px;
+color:#172554;
+font-size:1.25rem;
+}
+
+.management-panel{
+margin:18px 0;
+padding:24px;
+border:1px solid var(--management-border);
+border-radius:12px;
+background:var(--management-surface);
+box-shadow:0 5px 18px rgba(30,55,90,.055);
+}
+
+.management-alert{
+margin:14px 0;
+padding:13px 16px;
+border-radius:9px;
+line-height:1.5;
+}
+
+.management-alert-success{
+border:1px solid #86efac;
+background:#e8f7ee;
+color:#14532d;
+}
+
+.management-alert-error{
+border:1px solid #fecaca;
+background:#fff0ef;
+color:#7f1d1d;
+}
+
+.management-stats{
+display:grid;
+grid-template-columns:repeat(2,minmax(0,1fr));
+gap:16px;
+margin:18px 0;
+}
+
+.management-stat{
+display:flex;
+min-height:92px;
+align-items:center;
+justify-content:space-between;
+gap:16px;
+padding:18px 22px;
+border:1px solid var(--management-border);
+border-left:4px solid var(--management-blue);
+border-radius:10px;
+background:var(--management-surface);
+box-shadow:0 4px 14px rgba(30,55,90,.045);
+}
+
+.management-stat-inactive{
+border-left-color:#73839a;
+}
+
+.management-stat-label{
+color:var(--management-muted);
+font-size:.95rem;
+font-weight:700;
+}
+
+.management-stat strong{
+color:var(--management-blue-dark);
+font-size:1.8rem;
+line-height:1;
+}
+
+.management-stat-inactive strong{
+color:#4c5a6d;
+}
+
+.management-form,
+.management-filters{
+display:grid;
+grid-template-columns:repeat(4,minmax(0,1fr));
+gap:16px;
+align-items:end;
+}
+
+.management-filters{
+grid-template-columns:minmax(210px,1.6fr) minmax(170px,1fr) minmax(130px,.8fr) auto;
+margin-bottom:20px;
+}
+
+.management-form label,
+.management-filters label{
+display:grid;
+gap:7px;
+font-weight:700;
+}
+
+.management-form input,
+.management-form select,
+.management-filters input,
+.management-filters select{
+width:100%;
+min-height:46px;
+padding:10px 12px;
+border:1px solid #cbd5e1;
+border-radius:7px;
+background:#fff;
+color:#1f2937;
+font:inherit;
+}
+
+.management-form input:focus-visible,
+.management-form select:focus-visible,
+.management-filters input:focus-visible,
+.management-filters select:focus-visible{
+outline:3px solid rgba(63,90,224,.25);
+outline-offset:2px;
+}
+
+.management-help{
+margin:0;
+color:var(--management-muted);
+font-size:.92rem;
+line-height:1.5;
+}
+
+.management-form .management-help{
+grid-column:1/-1;
+}
+
+.student-management-page .button{
+display:inline-flex;
+min-height:44px;
+align-items:center;
+justify-content:center;
+padding:10px 15px;
+border:1px solid transparent;
+border-radius:7px;
+font:inherit;
+font-weight:700;
+text-align:center;
+text-decoration:none;
+cursor:pointer;
+transition:background-color .15s ease,border-color .15s ease,color .15s ease;
+}
+
+.student-management-page .button-primary{
+background:var(--management-blue);
+color:#fff;
+}
+
+.student-management-page .button-secondary{
+border-color:#cbd5e1;
+background:#fff;
+color:var(--management-blue-dark);
+}
+
+.student-management-page .button-danger{
+background:#a33138;
+color:#fff;
+}
+
+.student-management-page .button-primary:hover{
+background:var(--management-blue-dark);
+}
+
+.student-management-page .button-secondary:hover{
+border-color:#9fb2cc;
+background:#f3f6fa;
+}
+
+.student-management-page .button-danger:hover{
+background:#85242b;
+}
+
+.student-management-page .button:focus-visible,
+.management-brand:focus-visible,
+.management-row-actions a:focus-visible{
+outline:3px solid rgba(40,79,143,.28);
+outline-offset:2px;
+}
+
+.management-actions{
+display:flex;
+flex-wrap:wrap;
+align-items:center;
+gap:10px;
+}
+
+.management-empty{
+padding:18px 0;
+color:#526078;
+}
+
+.management-table-wrap{
+overflow-x:auto;
+}
+
+.management-table{
+width:100%;
+min-width:850px;
+border-collapse:collapse;
+text-align:left;
+}
+
+.management-table th,
+.management-table td{
+padding:14px 15px;
+border-bottom:1px solid #e5eaf2;
+vertical-align:top;
+}
+
+.management-table th{
+background:var(--management-blue);
+color:#fff;
+font-size:.92rem;
+font-weight:700;
+}
+
+.management-table tbody tr:hover{
+background:#f7f9ff;
+}
+
+.status-badge{
+display:inline-block;
+padding:4px 9px;
+border-radius:999px;
+font-size:.84rem;
+font-weight:700;
+}
+
+.status-active{
+background:#e8f7ee;
+color:#14532d;
+}
+
+.status-inactive{
+background:#fff0ef;
+color:#7f1d1d;
+}
+
+.management-row-actions{
+white-space:nowrap;
+}
+
+.management-row-actions a{
+display:inline-block;
+margin:0 5px 4px 0;
+padding:6px 9px;
+border:1px solid #cad7e9;
+border-radius:6px;
+background:#f7f9fc;
+color:var(--management-blue-dark);
+font-weight:700;
+text-decoration:none;
+}
+
+.management-row-actions .management-delete-link{
+border-color:#f0c8cb;
+background:#fff5f5;
+color:#922d34;
+}
+
+.management-row-actions a:hover{
+background:#eaf0f8;
+}
+
+.management-row-actions .management-delete-link:hover{
+background:#fde8e8;
+}
+
+@media(max-width:900px){
+.management-form{
+grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
+.management-filters{
+grid-template-columns:repeat(2,minmax(0,1fr));
+}
+}
+
+@media(max-width:600px){
+.student-management-page{
+padding:16px 12px;
+}
+
+.management-title-row,
+.management-section-heading{
+align-items:flex-start;
+flex-direction:column;
+}
+
+.student-management h1{
+font-size:1.55rem;
+}
+
+.management-panel{
+padding:16px;
+}
+
+.management-stats{
+gap:10px;
+}
+
+.management-stat{
+min-height:78px;
+padding:14px;
+}
+
+.management-stat-label{
+font-size:.84rem;
+}
+
+.management-stat strong{
+font-size:1.5rem;
+}
+
+.management-form,
+.management-filters{
+grid-template-columns:1fr;
+}
+
+.management-filters .management-actions{
+display:grid;
+grid-template-columns:1fr 1fr;
+}
+
+.management-filters .management-actions .button:first-child{
+grid-column:1/-1;
+}
 }

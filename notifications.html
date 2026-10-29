@@ -1,113 +1,334 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Notifications</title>
-</head>
-<body>
-<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudentHub</title>
-</head>
+    <title>StudentHub - Notifications</title>
 
+    <style>
+        :root {
+            --bg: #eef4ff;
+            --surface: #ffffff;
+            --surface-2: #f8f9fc;
+            --text: #0f172a;
+            --muted: #64748b;
+            --primary: #3f5ae0;
+            --primary-soft: rgba(63, 90, 224, .12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(180deg, #f7f9ff 0%, #eef4ff 100%);
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 24px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 24px;
+        }
+
+        .sidebar {
+            background: var(--surface);
+            border-radius: 30px;
+            padding: 28px 24px;
+            box-shadow: 0 22px 60px rgba(15, 23, 42, 0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .sidebar .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+
+        .brand-title {
+            font-size: 20px;
+            letter-spacing: -0.03em;
+            font-weight: 700;
+        }
+
+        .nav {
+            list-style: none;
+            display: grid;
+            gap: 8px;
+        }
+
+        .nav li a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 16px;
+            color: #334155;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background .2s ease, color .2s ease;
+        }
+
+        .nav li a:hover,
+        .nav li a.active {
+            background: var(--primary-soft);
+            color: var(--primary);
+        }
+
+        .nav li a span.icon {
+            width: 18px;
+            display: inline-flex;
+            justify-content: center;
+        }
+
+        .nav li a span.badge {
+            margin-left: auto;
+            background: var(--primary);
+            color: #fff;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .sidebar hr {
+            border: none;
+            height: 1px;
+            background: #e2e8f0;
+            margin: 0;
+        }
+
+        .sidebar .profile {
+            padding-top: 10px;
+            border-top: 1px solid #e2e8f0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .sidebar .profile h3 {
+            margin-bottom: 4px;
+            color: var(--text);
+            font-size: 17px;
+        }
+
+        .sidebar .profile a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .main {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .page-header {
+            background: var(--surface);
+            border-radius: 28px;
+            padding: 28px;
+            box-shadow: 0 22px 60px rgba(15, 23, 42, 0.08);
+            position: relative;
+        }
+
+        .page-header::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            background: var(--primary);
+            border-radius: 6px 0 0 6px;
+        }
+
+        .page-header h1 {
+            font-size: 28px;
+            margin: 0;
+        }
+
+        .page-header .actions {
+            margin-top: 12px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .page-header .actions a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .notifications-list {
+            display: grid;
+            gap: 16px;
+        }
+
+        .notification-card {
+            position: relative;
+            background: var(--surface);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+            overflow: hidden;
+        }
+
+        .notification-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            background: var(--primary);
+        }
+
+        .notification-card h2 {
+            font-size: 18px;
+            margin: 0 0 8px;
+            color: #111827;
+        }
+
+        .notification-card p {
+            margin: 0 0 10px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .notification-card .time {
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        .notification-card .status-dot {
+            position: absolute;
+            top: 22px;
+            right: 22px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #2563eb;
+        }
+
+        @media (max-width: 1050px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .container {
+                padding: 16px;
+            }
+
+            .sidebar {
+                padding: 22px;
+            }
+
+            .page-header,
+            .notification-card {
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
 <body>
 
 <div class="container">
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-
-        <div class="logo">
-            <h2>StudentHub</h2>
+    <aside class="sidebar">
+        <div class="brand">
+            <img src="logo.png" class="logo" alt="StudentHub Logo">
+            <div class="brand-title">StudentHub</div>
         </div>
 
-        <ul>
-
-            <li>
-                <a href="index.html">Home</a>
-            </li>
-
-            <li>
-                <a href="timetable.html">Timetable</a>
-            </li>
-
-            <li>
-                <a href="attendance.html">Attendance</a>
-            </li>
-
-            <li>
-                <a href="results.html">Results &amp; CGPA</a>
-            </li>
-
-            <li>
-                <a href="events.html">Events</a>
-            </li>
-
-            <li>
-                <a href="assignment.html">Assignments</a>
-            </li>
-
-            <li>
-                <a href="fees.html">Fees Payment</a>
-            </li>
-
-            <li>
-                <a href="certificate.html">Certificates</a>
-            </li>
-
-            <li>
-                <a href="resources.html">Resources</a>
-            </li>
-
-            <li>
-                <a href="notifications.html">
-                    Notifications
-                    <span>2</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="profile.html">Profile</a>
-            </li>
-
+        <ul class="nav">
+            <li><a href="index.html"><span class="icon">⌂</span>Home</a></li>
+            <li><a href="timetable.html"><span class="icon">◷</span>Timetable</a></li>
+            <li><a href="attendance.html"><span class="icon">▥</span>Attendance</a></li>
+            <li><a href="results.html"><span class="icon">▥</span>Results &amp; CGPA</a></li>
+            <li><a href="events.html"><span class="icon">□</span>Events</a></li>
+            <li><a href="assignment.html"><span class="icon">▤</span>Assignments</a></li>
+            <li><a href="fees.html"><span class="icon">▭</span>Fees Payment</a></li>
+            <li><a href="certificate.html"><span class="icon">♙</span>Certificates</a></li>
+            <li><a href="resources.html"><span class="icon">▣</span>Resources</a></li>
+            <li><a class="active" href="notifications.html"><span class="icon">♧</span>Notifications<span class="badge">2</span></a></li>
+            <li><a href="profile.html"><span class="icon">♙</span>Profile</a></li>
         </ul>
 
-    <h1>Notifications</h1>
+        <hr>
 
-    <p><a href="#">Mark all read</a></p>
+        <div class="profile">
+            <h3>Hetvi Khavadiya</h3>
+            <p>25CS033 • Semester 3</p>
+            <p><a href="signout.html">Sign Out</a></p>
+        </div>
+    </aside>
 
-    <hr>
+    <main class="main">
+        <section class="page-header">
+            <h1>Notifications</h1>
+            <div class="actions">
+                <a href="#">Mark all read</a>
+            </div>
+        </section>
 
-    <h2>Assignment due tomorrow</h2>
-    <p>DS Lab – Linked List is due on Jul 20.</p>
-    <p>2h ago</p>
+        <section class="notifications-list">
+            <article class="notification-card">
+                <div class="status-dot"></div>
+                <h2>Assignment due tomorrow</h2>
+                <p>DS Lab – Linked List is due on Jul 20.</p>
+                <div class="time">2h ago</div>
+            </article>
 
-    <hr>
+            <article class="notification-card">
+                <div class="status-dot"></div>
+                <h2>Spooural 2026 registrations open</h2>
+                <p>Register before Dec 15 to participate.</p>
+                <div class="time">1d ago</div>
+            </article>
 
-    <h2>Spooural 2026 registrations open</h2>
-    <p>Register before Dec 15 to participate.</p>
-    <p>1d ago</p>
+            <article class="notification-card">
+                <h2>Internal exam schedule released</h2>
+                <p>Check the results section for dates.</p>
+                <div class="time">2d ago</div>
+            </article>
 
-    <hr>
+            <article class="notification-card">
+                <h2>Holiday on Aug 15</h2>
+                <p>College will remain closed on Independence Day.</p>
+                <div class="time">3d ago</div>
+            </article>
 
-    <h2>Internal exam schedule released</h2>
-    <p>Check the results section for dates.</p>
-    <p>2d ago</p>
+            <article class="notification-card">
+                <h2>Library fine notice</h2>
+                <p>Return borrowed books by Jul 25.</p>
+                <div class="time">4d ago</div>
+            </article>
+        </section>
+    </main>
+</div>
 
-    <hr>
-
-    <h2>Holiday on Aug 15</h2>
-    <p>College will remain closed on Independence Day.</p>
-    <p>3d ago</p>
-
-    <hr>
-
-    <h2>Library fine notice</h2>
-    <p>Return borrowed books by Jul 25.</p>
-    <p>4d ago</p>
-
+<script src="js/profile-sync.js"></script>
 </body>
 </html>
